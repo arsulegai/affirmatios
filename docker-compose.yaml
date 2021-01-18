@@ -58,6 +58,6 @@ services:
       - ARIES_HOST=university-agent
       - ARIES_PORT=8081
     ports:
-      - 9000:8080
+      - 9002:8080
     networks:
       - affirmatios_agent_net   
