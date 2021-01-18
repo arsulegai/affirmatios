@@ -13,7 +13,50 @@ services:
     environment:
       - HTTP_HOST=0.0.0.0
       - HTTP_PORT=8080
-      # TODO
+      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:14:default
+      - SCHEMA_ID=Th7MpTaRZVRYnPiabds81Y:2:hospital_record:1.0
+      - SCHEMA_ISSUER_ID=Th7MpTaRZVRYnPiabds81Y
+      - SCHEMA_NAME=hospital_record
+      - ARIES_HOST=hospital-agent
+      - ARIES_PORT=8081
+    ports:
+      - 9000:8080
+    networks:
+      - affirmatios_agent_net   
+
+  user:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: user
+    environment:
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=8080
+      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:14:default
+      - SCHEMA_ID=Th7MpTaRZVRYnPiabds81Y:2:hospital_record:1.0
+      - SCHEMA_ISSUER_ID=Th7MpTaRZVRYnPiabds81Y
+      - SCHEMA_NAME=hospital_record
+      - ARIES_HOST=user-agent
+      - ARIES_PORT=8081
+    ports:
+      - 9001:8080
+    networks:
+      - affirmatios_agent_net   
+
+  university:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: university
+    environment:
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=8080
+      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:14:default
+      - SCHEMA_ID=Th7MpTaRZVRYnPiabds81Y:2:hospital_record:1.0
+      - SCHEMA_ISSUER_ID=Th7MpTaRZVRYnPiabds81Y
+      - SCHEMA_NAME=hospital_record
+      - ARIES_HOST=university-agent
+      - ARIES_PORT=8081
     ports:
       - 9000:8080
     networks:
