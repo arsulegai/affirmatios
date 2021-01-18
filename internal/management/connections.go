@@ -4,7 +4,9 @@ import (
 	"affirmatios/hospital/internal/aagent"
 	"affirmatios/hospital/web"
 	"encoding/base64"
+	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
@@ -31,8 +33,17 @@ func (p *PendingConnections) GetHandler() http.HandlerFunc {
 			web.BadRequest(writer, err)
 			return
 		}
-		var toSend []byte
-		base64.RawStdEncoding.Decode(toSend, requestedBodyBytes)
+		err = json.Unmarshal(requestedBodyBytes, p)
+		if err != nil {
+			web.BadRequest(writer, err)
+			return
+		}
+		toSend, err := base64.StdEncoding.DecodeString(p.CID)
+		if err != nil {
+			web.BadRequest(writer, err)
+			return
+		}
+		log.Printf("%s", string(toSend))
 		respBody, err := aagent.AcceptConnection(toSend)
 		if err != nil {
 			web.BadRequest(writer, err)
