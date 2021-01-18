@@ -1,7 +1,9 @@
 package app
 
 import (
+	"affirmatios/hospital/internal/user"
 	"affirmatios/hospital/web"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -18,7 +20,20 @@ func (c *CustomRouter) GetRouter() *chi.Mux {
 }
 
 func (c *CustomRouter) setupSessionStore() {
-	return
+	c.router.Use(sessionMiddleware)
+}
+
+func sessionMiddleware(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		userLoggedInSession := "user-logged-in"
+		_, err := user.GetStore().Get(r, userLoggedInSession)
+		if err != nil {
+			log.Println(err)
+			http.SetCookie(w, &http.Cookie{Name: userLoggedInSession, MaxAge: -1, Path: "/"})
+			return
+		}
+		h.ServeHTTP(w, r)
+	})
 }
 
 func (c *CustomRouter) setupRoutes(services []web.Service) {

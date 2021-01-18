@@ -3,6 +3,7 @@ package app
 import (
 	"affirmatios/hospital/internal/hospital"
 	"affirmatios/hospital/internal/management"
+	"affirmatios/hospital/internal/user"
 	"fmt"
 	"log"
 	"net/http"
@@ -17,15 +18,18 @@ import (
 func Run(config *Config) error {
 	hospitalHandler := hospital.Hospital{}
 	connectionsHandler := management.Connections{}
+	userHandler := user.Management{}
 
 	r := getRouter()
 	r.setupSessionStore()
-	// add configuration services
-	r.setupRoutes(config.GetServices())
 	// add application services
 	r.setupRoutes(connectionsHandler.GetServices())
 	// add application services
 	r.setupRoutes(hospitalHandler.GetServices())
+	// add user management services
+	r.setupRoutes(userHandler.GetServices())
+	// add configuration services
+	r.setupRoutes(config.GetServices())
 	address := fmt.Sprintf("%s:%s", config.GetHost(), config.GetPort())
 	log.Printf("Started the service at %s\n", address)
 	return http.ListenAndServe(address, r.GetRouter())

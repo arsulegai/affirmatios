@@ -1,8 +1,8 @@
 package management
 
 import (
+	"affirmatios/hospital/internal/aagent"
 	"affirmatios/hospital/web"
-	"encoding/json"
 	"io/ioutil"
 	"net/http"
 )
@@ -14,7 +14,7 @@ type Connections struct {
 // PendingConnections structure
 // Has an API to return the pending connection requests
 type PendingConnections struct {
-	ConnectionID string
+	ConnectionID string `json: "connection_id"`
 }
 
 // GetAPI for accepting the pending connections
@@ -30,13 +30,7 @@ func (p *PendingConnections) GetHandler() http.HandlerFunc {
 			web.BadRequest(writer, err)
 			return
 		}
-		// TODO: accept the connections
-		err = json.Unmarshal(requestedBodyBytes, p)
-		if err != nil {
-			web.BadRequest(writer, err)
-			return
-		}
-		respBody, err := web.StructToBytes(p)
+		respBody, err := aagent.AcceptConnection(requestedBodyBytes)
 		if err != nil {
 			web.BadRequest(writer, err)
 			return
@@ -61,8 +55,8 @@ func (e *EstablishedConnections) GetAPI() string {
 // GetHandler for the returning all connections
 func (e *EstablishedConnections) GetHandler() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		// TODO: Query and send the connections
-		respBody, err := web.StructToBytes(e)
+		// Call the agent and get the information
+		respBody, err := aagent.GetConnections()
 		if err != nil {
 			web.BadRequest(writer, err)
 			return
@@ -76,12 +70,40 @@ func (e *EstablishedConnections) GetMethod() string {
 	return http.MethodGet
 }
 
+// RequestConnection has an API to establish a connection
+type RequestConnection struct{}
+
+// GetAPI for all the connections
+func (r *RequestConnection) GetAPI() string {
+	return "/connections/request"
+}
+
+// GetHandler for the returning all connections
+func (r *RequestConnection) GetHandler() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		// Call the agent and create the information
+		respBody, err := aagent.CreateConnection()
+		if err != nil {
+			web.BadRequest(writer, err)
+			return
+		}
+		web.Success(writer, respBody)
+	}
+}
+
+// GetMethod for EstablishedConnections is GET
+func (r *RequestConnection) GetMethod() string {
+	return http.MethodPost
+}
+
 // GetServices returns all the services for the connection
 func (c *Connections) GetServices() []web.Service {
 	var services []web.Service
 	p := PendingConnections{}
 	e := EstablishedConnections{}
+	r := RequestConnection{}
 	services = append(services, &p)
 	services = append(services, &e)
+	services = append(services, &r)
 	return services
 }

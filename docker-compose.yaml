@@ -1,5 +1,9 @@
 version: "3.6"
 
+networks:
+  affirmatios_agent_net:
+    external: true
+
 services:
   hospital:
     build:
@@ -9,5 +13,8 @@ services:
     environment:
       - HTTP_HOST=0.0.0.0
       - HTTP_PORT=8080
+      # TODO
     ports:
-      - 8080:8080    
+      - 9000:8080
+    networks:
+      - affirmatios_agent_net   
