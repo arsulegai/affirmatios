@@ -19,3 +19,4 @@
 # Ignore the idea files
 .idea
 hospital
+go.sum
