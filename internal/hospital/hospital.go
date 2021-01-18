@@ -1,6 +1,8 @@
 package hospital
 
 import (
+	"affirmatios/hospital/internal/aagent"
+	"affirmatios/hospital/internal/credential"
 	"affirmatios/hospital/web"
 	"encoding/json"
 	"io/ioutil"
@@ -10,6 +12,7 @@ import (
 // Hospital is used to issue credentials
 type Hospital struct {
 	ConnectionID string
+	Credential   credential.Credential
 }
 
 // GetAPI for Hospital has to register a schema before it
@@ -27,13 +30,15 @@ func (h *Hospital) GetHandler() http.HandlerFunc {
 			web.BadRequest(writer, err)
 			return
 		}
-		// TODO: accept the connections
+		// read the request body, has the connection id and the credential
 		err = json.Unmarshal(requestedBodyBytes, h)
 		if err != nil {
 			web.BadRequest(writer, err)
 			return
 		}
-		respBody, err := web.StructToBytes(h)
+		// Use the credential to call the Aries agent
+		// Response back from the agent
+		respBody, err := aagent.IssueCredential(h.ConnectionID, h.Credential)
 		if err != nil {
 			web.BadRequest(writer, err)
 			return

@@ -21,14 +21,24 @@ func GetConfig(appName, appVersion string) *Config {
 	return &config
 }
 
+// GetAriesHost returns the aries host configuration
+func (c *Config) GetAriesHost() string {
+	return getOrDefaultEnv("ARIES_HOST", "hospital-agent")
+}
+
+// GetAriesPort returns the port
+func (c *Config) GetAriesPort() string {
+	return getOrDefaultEnv("ARIES_PORT", "8081")
+}
+
 // GetHost is where the server is bound
 func (c *Config) GetHost() string {
-	return os.Getenv("HTTP_HOST")
+	return getOrDefaultEnv("HTTP_HOST", "0.0.0.0")
 }
 
 // GetPort is where the server is binding the port
 func (c *Config) GetPort() string {
-	return os.Getenv("HTTP_PORT")
+	return getOrDefaultEnv("HTTP_PORT", "8080")
 }
 
 // GetAPI returns the API to be added
@@ -58,4 +68,11 @@ func (c *Config) GetServices() []web.Service {
 	var services []web.Service
 	services = append(services, c)
 	return services
+}
+
+func getOrDefaultEnv(key string, defaultValue string) string {
+	if _, exists := os.LookupEnv(key); !exists {
+		return defaultValue
+	}
+	return os.Getenv(key)
 }
