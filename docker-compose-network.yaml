@@ -1,0 +1,134 @@
+version: "3.6"
+
+volumes:
+  agent_volumes:
+
+networks:
+  agent_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/16
+
+services:
+  webserver:
+    image: python:latest
+    command: 'python3 -m http.server 8000 --bind 0.0.0.0'
+    volumes:
+      - agent_volumes:/sandbox
+    networks:
+      - agent_net
+    expose:
+      - 8000
+    working_dir: /sandbox
+    ports:
+      - 8000:8000
+
+  indy-pool:
+    image: arsulegai/indy-pool:latest
+    container_name: indy-pool
+    ports:
+      - "9701-9709:9701-9709"
+    expose:
+      - 9701
+      - 9702
+      - 9703
+      - 9704
+      - 9705
+      - 9706
+      - 9707
+      - 9708
+      - 9709
+    networks:
+      agent_net:
+        ipv4_address: 10.0.0.10
+    volumes:
+      - agent_volumes:/var/lib/indy/sandbox
+
+  indy-cli:
+    image: arsulegai/indy-cli:latest
+    container_name: indy-cli
+    networks:
+      - agent_net
+    volumes:
+      - agent_volumes:/configurationpath
+    command: "bash -c \"mkdir -p /root/.indy_client/pool/sandbox && \
+    cp /configurationpath/pool_transactions_genesis /root/.indy_client/pool/sandbox/pool_transactions_genesis && \
+    tail -f /dev/null\""
+
+  hospital-agent:
+    image: arsulegai/aries-cloudagent-py:latest
+    container_name: hospital-agent
+    ports:
+      - 8080:8080
+      - 8081:8081
+      - 8082:8082
+      - 8083:8083
+      - 8084:8084
+    expose:
+      - 8080
+      - 8081
+      - 8082
+      - 8083
+      - 8084
+    networks:
+      - agent_net
+    environment:
+      - GENESIS_FILE:/sandbox/pool_transactions_genesis
+    volumes:
+      - agent_volumes:/sandbox
+    depends_on:
+      - webserver
+    entrypoint: "/bin/bash -c \" \
+    aca-py provision --wallet-type indy \
+    -e http://hospital-agent:8080 \
+    --genesis-file /sandbox/pool_transactions_genesis \
+    --wallet-name hospitalwallet --wallet-key hospitalagentkey \
+    --seed 000000000000000000000000Steward1 \
+    && aca-py start --label agent.Issuer.Hospital \
+    --auto-respond-messages --trace-target log --trace-tag acapy.events \
+    --trace-label agent.Issuer.Hospital.trace --auto-accept-invites \
+    --auto-accept-requests --genesis-file /sandbox/pool_transactions_genesis \
+    --wallet-storage-type default \
+    --wallet-type indy -it http 0.0.0.0 8080 -ot http \
+    --admin 0.0.0.0 8081 --admin-insecure-mode --auto-ping-connection \
+    -e http://hospital-agent:8080 \
+    --wallet-name hospitalwallet --wallet-key hospitalagentkey\""
+
+  user-agent:
+    image: arsulegai/aries-cloudagent-py:latest
+    container_name: user-agent
+    ports:
+      - 8085:8080
+      - 8086:8081
+      - 8087:8082
+      - 8088:8083
+      - 8089:8084
+    expose:
+      - 8080
+      - 8081
+      - 8082
+      - 8083
+      - 8084
+    networks:
+      - agent_net
+    volumes:
+      - agent_volumes:/sandbox
+    depends_on:
+      - webserver
+    entrypoint: "/bin/bash -c \" \
+    aca-py provision --wallet-type indy \
+    -e http://user-agent:8080 \
+    --genesis-file /sandbox/pool_transactions_genesis \
+    --wallet-name userwallet --wallet-key useragentkey \
+    --seed 000000000000000000000000Steward1 \
+    && aca-py start --label agent.Holder \
+    --auto-respond-messages --trace-target log --trace-tag acapy.events \
+    --auto-respond-credential-offer \
+    --trace-label agent.Holder.trace --auto-accept-invites \
+    --auto-accept-requests --genesis-file /sandbox/pool_transactions_genesis \
+    --wallet-storage-type default \
+    --wallet-type indy -it http 0.0.0.0 8080 -ot http \
+    --admin 0.0.0.0 8081 --admin-insecure-mode --auto-ping-connection \
+    -e http://user-agent:8080 \
+    --wallet-name userwallet --wallet-key useragentkey\""
