@@ -10,4 +10,5 @@ type Handler func(w http.ResponseWriter, r *http.Request)
 type Service interface {
 	GetAPI() string
 	GetHandler() http.HandlerFunc
+	GetMethod() string
 }

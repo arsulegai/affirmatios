@@ -48,7 +48,13 @@ func (c *Config) GetHandler() http.HandlerFunc {
 	}
 }
 
-func (c *Config) getServices() []web.Service {
+// GetMethod for config is GET
+func (c *Config) GetMethod() string {
+	return http.MethodGet
+}
+
+// GetServices returns all the services associated with config
+func (c *Config) GetServices() []web.Service {
 	var services []web.Service
 	services = append(services, c)
 	return services

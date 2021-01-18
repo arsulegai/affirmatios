@@ -2,6 +2,7 @@ package app
 
 import (
 	"affirmatios/hospital/web"
+	"net/http"
 
 	"github.com/go-chi/chi"
 )
@@ -22,7 +23,12 @@ func (c *CustomRouter) setupSessionStore() {
 
 func (c *CustomRouter) setupRoutes(services []web.Service) {
 	for _, service := range services {
-		c.router.Get(service.GetAPI(), service.GetHandler())
+		if service.GetMethod() == http.MethodGet {
+			c.router.Get(service.GetAPI(), service.GetHandler())
+		}
+		if service.GetMethod() == http.MethodPost {
+			c.router.Post(service.GetAPI(), service.GetHandler())
+		}
 	}
 	return
 }
