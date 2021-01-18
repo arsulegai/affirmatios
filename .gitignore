@@ -18,5 +18,5 @@
 
 # Ignore the idea files
 .idea
-hospital
+/hospital
 go.sum
