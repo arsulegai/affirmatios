@@ -1,9 +1,8 @@
 package aagent
 
 import (
-	"affirmatios/hospital/internal/credential"
-	"affirmatios/hospital/internal/ledger"
-	"fmt"
+	"affirmatios/university/internal/credential"
+	"affirmatios/university/internal/ledger"
 	"log"
 )
 
@@ -52,24 +51,24 @@ func getAriesCredential(cID string, c credential.Credential) AriesCredential {
 		Value: c.Name,
 	})
 	ariesAttributes = append(ariesAttributes, AriesAttribute{
-		Name:  "sex",
-		Value: c.Sex,
+		Name:  "roll_number",
+		Value: c.RollNumber,
 	})
 	ariesAttributes = append(ariesAttributes, AriesAttribute{
-		Name:  "age",
-		Value: fmt.Sprintf("%d", c.Age),
+		Name:  "completed_date",
+		Value: c.CompletedDate,
+	})
+	ariesAttributes = append(ariesAttributes, AriesAttribute{
+		Name:  "department",
+		Value: c.Department,
 	})
 	ariesAttributes = append(ariesAttributes, AriesAttribute{
 		Name:  "address",
 		Value: c.Address,
 	})
 	ariesAttributes = append(ariesAttributes, AriesAttribute{
-		Name:  "place",
-		Value: c.Place,
-	})
-	ariesAttributes = append(ariesAttributes, AriesAttribute{
-		Name:  "date",
-		Value: c.Date,
+		Name:  "issued_date",
+		Value: c.IssuedDate,
 	})
 	ariesCredentialProposal := AriesCredentialProposal{
 		Type:       "issue-credential/1.0/credential-preview",
@@ -80,7 +79,7 @@ func getAriesCredential(cID string, c credential.Credential) AriesCredential {
 		IssuerDID:          ledger.GetSchemaIssuerID(),
 		SchemaVersion:      credential.SchemaVersion,
 		CredentialProposal: ariesCredentialProposal,
-		Comment:            "Hospital Issued The Credential",
+		Comment:            "University Issued The Credential",
 		CredDefID:          ledger.GetCredentialDefID(),
 		SchemaIssuerID:     ledger.GetSchemaIssuerID(),
 		SchemaName:         ledger.GetSchemaName(),

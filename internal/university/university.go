@@ -1,30 +1,30 @@
-package hospital
+package university
 
 import (
-	"affirmatios/hospital/internal/aagent"
-	"affirmatios/hospital/internal/credential"
-	"affirmatios/hospital/web"
+	"affirmatios/university/internal/aagent"
+	"affirmatios/university/internal/credential"
+	"affirmatios/university/web"
 	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-// Hospital is used to issue credentials
-type Hospital struct {
+// University is used to issue credentials
+type University struct {
 	ID         string                `json:"connection_id"`
 	Credential credential.Credential `json:"credential"`
 }
 
-// GetAPI for Hospital has to register a schema before it
+// GetAPI for University has to register a schema before it
 // is sent to the receiver
-func (h *Hospital) GetAPI() string {
-	return "/hospital/issue"
+func (h *University) GetAPI() string {
+	return "/university/issue"
 }
 
 // GetHandler returns the handler method for the request
 // in this case issues the credential to the established connection
-func (h *Hospital) GetHandler() http.HandlerFunc {
+func (h *University) GetHandler() http.HandlerFunc {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		requestedBodyBytes, err := ioutil.ReadAll(request.Body)
 		if err != nil {
@@ -50,7 +50,7 @@ func (h *Hospital) GetHandler() http.HandlerFunc {
 }
 
 // GetMethod returns the POST
-func (h *Hospital) GetMethod() string {
+func (h *University) GetMethod() string {
 	return http.MethodPost
 }
 
@@ -59,7 +59,7 @@ type ViewCredential struct{}
 
 // GetAPI for all the credentials
 func (v *ViewCredential) GetAPI() string {
-	return "/hospital/view"
+	return "/university/view"
 }
 
 // GetHandler for the returning all credentials
@@ -80,8 +80,8 @@ func (v *ViewCredential) GetMethod() string {
 	return http.MethodGet
 }
 
-// GetServices returns all the services from hospital
-func (h *Hospital) GetServices() []web.Service {
+// GetServices returns all the services from university
+func (h *University) GetServices() []web.Service {
 	var services []web.Service
 	v := ViewCredential{}
 	services = append(services, h)

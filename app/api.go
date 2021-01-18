@@ -1,9 +1,9 @@
 package app
 
 import (
-	"affirmatios/hospital/internal/hospital"
-	"affirmatios/hospital/internal/management"
-	"affirmatios/hospital/internal/user"
+	"affirmatios/university/internal/management"
+	"affirmatios/university/internal/university"
+	"affirmatios/university/internal/user"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,7 +16,7 @@ import (
 
 // Run will be the entry point function for the REST APIs
 func Run(config *Config) error {
-	hospitalHandler := hospital.Hospital{}
+	universityHandler := university.University{}
 	connectionsHandler := management.Connections{}
 	userHandler := user.Management{}
 
@@ -25,7 +25,7 @@ func Run(config *Config) error {
 	// add application services
 	r.setupRoutes(connectionsHandler.GetServices())
 	// add application services
-	r.setupRoutes(hospitalHandler.GetServices())
+	r.setupRoutes(universityHandler.GetServices())
 	// add user management services
 	r.setupRoutes(userHandler.GetServices())
 	// add configuration services

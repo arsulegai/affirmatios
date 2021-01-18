@@ -19,4 +19,5 @@
 # Ignore the idea files
 .idea
 /hospital
+/university
 go.sum

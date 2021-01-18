@@ -5,4 +5,4 @@ COPY . /app
 WORKDIR /app
 RUN go build
 
-CMD ./hospital
+CMD ./university

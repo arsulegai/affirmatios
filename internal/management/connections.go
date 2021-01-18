@@ -1,8 +1,8 @@
 package management
 
 import (
-	"affirmatios/hospital/internal/aagent"
-	"affirmatios/hospital/web"
+	"affirmatios/university/internal/aagent"
+	"affirmatios/university/web"
 	"encoding/base64"
 	"encoding/json"
 	"io/ioutil"
