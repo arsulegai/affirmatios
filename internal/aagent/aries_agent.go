@@ -2,6 +2,7 @@ package aagent
 
 import (
 	"encoding/json"
+	"log"
 	"math/rand"
 )
 
@@ -34,6 +35,7 @@ func (agent AriesAgent) sendCredential(ariesCredential AriesCredential) ([]byte,
 	if err != nil {
 		return nil, err
 	}
+	log.Printf("Sending %v", string(message))
 	return agent.post(message, "/issue-credential/send")
 }
 

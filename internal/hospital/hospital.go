@@ -6,13 +6,14 @@ import (
 	"affirmatios/hospital/web"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
 // Hospital is used to issue credentials
 type Hospital struct {
-	ConnectionID string
-	Credential   credential.Credential
+	ID         string                `json:"connection_id"`
+	Credential credential.Credential `json:"credential"`
 }
 
 // GetAPI for Hospital has to register a schema before it
@@ -32,13 +33,14 @@ func (h *Hospital) GetHandler() http.HandlerFunc {
 		}
 		// read the request body, has the connection id and the credential
 		err = json.Unmarshal(requestedBodyBytes, h)
+		log.Printf("%v", *h)
 		if err != nil {
 			web.BadRequest(writer, err)
 			return
 		}
 		// Use the credential to call the Aries agent
 		// Response back from the agent
-		respBody, err := aagent.IssueCredential(h.ConnectionID, h.Credential)
+		respBody, err := aagent.IssueCredential(h.ID, h.Credential)
 		if err != nil {
 			web.BadRequest(writer, err)
 			return

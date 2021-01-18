@@ -36,8 +36,7 @@ func (m *Management) GetHandler() http.HandlerFunc {
 			return
 		}
 		// Set some session values.
-		session.Values["foo"] = "bar"
-		session.Values[42] = 43
+		session.Values["user-logged-in"] = "1"
 		// Save it before we write to the response/return from the handler.
 		err = session.Save(request, writer)
 		if err != nil {

@@ -3,6 +3,7 @@ package management
 import (
 	"affirmatios/hospital/internal/aagent"
 	"affirmatios/hospital/web"
+	"encoding/base64"
 	"io/ioutil"
 	"net/http"
 )
@@ -14,7 +15,7 @@ type Connections struct {
 // PendingConnections structure
 // Has an API to return the pending connection requests
 type PendingConnections struct {
-	ConnectionID string `json: "connection_id"`
+	CID string `json:"c_id"`
 }
 
 // GetAPI for accepting the pending connections
@@ -30,7 +31,9 @@ func (p *PendingConnections) GetHandler() http.HandlerFunc {
 			web.BadRequest(writer, err)
 			return
 		}
-		respBody, err := aagent.AcceptConnection(requestedBodyBytes)
+		var toSend []byte
+		base64.RawStdEncoding.Decode(toSend, requestedBodyBytes)
+		respBody, err := aagent.AcceptConnection(toSend)
 		if err != nil {
 			web.BadRequest(writer, err)
 			return
