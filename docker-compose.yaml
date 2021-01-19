@@ -6,14 +6,12 @@ networks:
 
 services:
   hospital:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: arsulegai/affirmatios-hospital:latest
     container_name: hospital
     environment:
       - HTTP_HOST=0.0.0.0
       - HTTP_PORT=8080
-      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:14:default
+      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:16:default
       - SCHEMA_ID=Th7MpTaRZVRYnPiabds81Y:2:hospital_record:1.0
       - SCHEMA_ISSUER_ID=Th7MpTaRZVRYnPiabds81Y
       - SCHEMA_NAME=hospital_record
@@ -25,9 +23,7 @@ services:
       - affirmatios_agent_net   
 
   user:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: shubhkarman288/affimatios-users:latest
     container_name: user
     environment:
       - HTTP_HOST=0.0.0.0
@@ -44,17 +40,15 @@ services:
       - affirmatios_agent_net   
 
   university:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: arsulegai/affirmatios-university:latest
     container_name: university
     environment:
       - HTTP_HOST=0.0.0.0
       - HTTP_PORT=8080
-      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:14:default
-      - SCHEMA_ID=Th7MpTaRZVRYnPiabds81Y:2:hospital_record:1.0
+      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:17:default
+      - SCHEMA_ID=Th7MpTaRZVRYnPiabds81Y:2:university_record:1.0
       - SCHEMA_ISSUER_ID=Th7MpTaRZVRYnPiabds81Y
-      - SCHEMA_NAME=hospital_record
+      - SCHEMA_NAME=university_record
       - ARIES_HOST=university-agent
       - ARIES_PORT=8081
     ports:

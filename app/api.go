@@ -1,9 +1,9 @@
 package app
 
 import (
-	"affirmatios/hospital/internal/hospital"
-	"affirmatios/hospital/internal/management"
-	"affirmatios/hospital/internal/user"
+	"affirmatios/user/internal/management"
+	"affirmatios/user/internal/user"
+	usermanagement "affirmatios/user/internal/usermanagement"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,18 +16,18 @@ import (
 
 // Run will be the entry point function for the REST APIs
 func Run(config *Config) error {
-	hospitalHandler := hospital.Hospital{}
+	userHandler := user.User{}
 	connectionsHandler := management.Connections{}
-	userHandler := user.Management{}
+	usermanagementHandler := usermanagement.Management{}
 
 	r := getRouter()
 	r.setupSessionStore()
 	// add application services
 	r.setupRoutes(connectionsHandler.GetServices())
 	// add application services
-	r.setupRoutes(hospitalHandler.GetServices())
-	// add user management services
 	r.setupRoutes(userHandler.GetServices())
+	// add user management services
+	r.setupRoutes(usermanagementHandler.GetServices())
 	// add configuration services
 	r.setupRoutes(config.GetServices())
 	address := fmt.Sprintf("%s:%s", config.GetHost(), config.GetPort())

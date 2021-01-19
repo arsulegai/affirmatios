@@ -1,8 +1,8 @@
 package aagent
 
 import (
-	"affirmatios/hospital/internal/credential"
-	"affirmatios/hospital/internal/ledger"
+	"affirmatios/user/internal/credential"
+	"affirmatios/user/internal/ledger"
 	"fmt"
 	"log"
 )
@@ -80,7 +80,7 @@ func getAriesCredential(cID string, c credential.Credential) AriesCredential {
 		IssuerDID:          ledger.GetSchemaIssuerID(),
 		SchemaVersion:      credential.SchemaVersion,
 		CredentialProposal: ariesCredentialProposal,
-		Comment:            "Hospital Issued The Credential",
+		Comment:            "user Issued The Credential",
 		CredDefID:          ledger.GetCredentialDefID(),
 		SchemaIssuerID:     ledger.GetSchemaIssuerID(),
 		SchemaName:         ledger.GetSchemaName(),
@@ -95,4 +95,19 @@ func ViewCredential() ([]byte, error) {
 	// Call agent to know what's there
 	agent := GetAgent()
 	return agent.viewIssuedCredential()
+}
+
+func StoreCredentials(exchangeId string) ([]byte, error) {
+	agent := GetAgent()
+	return agent.storeCredential(exchangeId)
+}
+
+func GetCredentials() ([]byte, error) {
+	agent := GetAgent()
+	return agent.getCredentials()
+}
+
+func GetCredentialsById(id string) ([]byte, error) {
+	agent := GetAgent()
+	return agent.getCredentialsById(id)
 }

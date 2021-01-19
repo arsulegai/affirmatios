@@ -43,7 +43,15 @@ func (agent AriesAgent) viewIssuedCredential() ([]byte, error) {
 	// http operation to send to the agent
 	return agent.get("/issue-credential/records")
 }
-
+func (agent AriesAgent) storeCredential(exchangeId string) ([]byte, error) {
+	return agent.post(nil, "/issue-credential/records/"+exchangeId+"/store")
+}
+func (agent AriesAgent) getCredentials() ([]byte, error) {
+	return agent.get("/credentials")
+}
+func (agent AriesAgent) getCredentialsById(id string) ([]byte, error) {
+	return agent.get("/credential/" + id)
+}
 func (agent AriesAgent) getConnections() ([]byte, error) {
 	// http operation to send to the agent
 	return agent.get("/connections")

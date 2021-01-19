@@ -1,8 +1,8 @@
 package app
 
 import (
-	"affirmatios/hospital/internal/user"
-	"affirmatios/hospital/web"
+	user "affirmatios/user/internal/usermanagement"
+	"affirmatios/user/web"
 	"log"
 	"net/http"
 
