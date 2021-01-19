@@ -59,7 +59,9 @@ services:
       - affirmatios_agent_net   
   
   employer:
-    image: arsulegai/affirmatios-employer:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: employer
     environment:
       - HTTP_HOST=0.0.0.0
@@ -71,6 +73,6 @@ services:
       - ARIES_HOST=employer-agent
       - ARIES_PORT=8081
     ports:
-      - 9002:8080
+      - 9003:8080
     networks:
       - affirmatios_agent_net   

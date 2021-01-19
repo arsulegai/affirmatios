@@ -171,3 +171,41 @@ services:
     --admin 0.0.0.0 8081 --admin-insecure-mode --auto-ping-connection \
     -e http://user-agent:8080 \
     --wallet-name userwallet --wallet-key useragentkey\""
+
+  employer-agent:
+    image: arsulegai/aries-cloudagent-py:latest
+    container_name: employer-agent
+    ports:
+      - 8095:8080
+      - 8096:8081
+      - 8097:8082
+      - 8098:8083
+      - 8099:8084
+    expose:
+      - 8080
+      - 8081
+      - 8082
+      - 8083
+      - 8084
+    networks:
+      - agent_net
+    volumes:
+      - agent_volumes:/sandbox
+    depends_on:
+      - webserver
+    entrypoint: "/bin/bash -c \" \
+    aca-py provision --wallet-type indy \
+    -e http://employer-agent:8080 \
+    --genesis-file /sandbox/pool_transactions_genesis \
+    --wallet-name employeewallet --wallet-key employeeagentkey \
+    --seed 000000000000000000000000Steward1 \
+    && aca-py start --label agent.Holder \
+    --auto-respond-messages --trace-target log --trace-tag acapy.events \
+    --auto-respond-credential-offer \
+    --trace-label agent.Holder.trace --auto-accept-invites \
+    --auto-accept-requests --genesis-file /sandbox/pool_transactions_genesis \
+    --wallet-storage-type default \
+    --wallet-type indy -it http 0.0.0.0 8080 -ot http \
+    --admin 0.0.0.0 8081 --admin-insecure-mode --auto-ping-connection \
+    -e http://employer-agent:8080 \
+    --wallet-name employeewallet --wallet-key employeeagentkey\""
