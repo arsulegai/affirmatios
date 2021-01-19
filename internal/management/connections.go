@@ -1,8 +1,8 @@
 package management
 
 import (
-	"affirmatios/university/internal/aagent"
-	"affirmatios/university/web"
+	"affirmatios/employer/internal/aagent"
+	"affirmatios/employer/web"
 	"encoding/base64"
 	"encoding/json"
 	"io/ioutil"

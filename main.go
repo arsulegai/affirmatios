@@ -1,15 +1,15 @@
 package main
 
 import (
-	"affirmatios/university/app"
-	"affirmatios/university/internal/aagent"
+	"affirmatios/employer/app"
+	"affirmatios/employer/internal/aagent"
 	"log"
 
 	"github.com/joho/godotenv"
 )
 
 // AppName is the application name
-var AppName = "University Management App"
+var AppName = "Employer App"
 
 // AppVersion is the application version
 var AppVersion = "0.1"

@@ -1,7 +1,7 @@
 package user
 
 import (
-	"affirmatios/university/web"
+	"affirmatios/employer/web"
 	"net/http"
 
 	"github.com/gorilla/sessions"

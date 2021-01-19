@@ -1,9 +1,9 @@
 package app
 
 import (
-	"affirmatios/university/internal/management"
-	"affirmatios/university/internal/university"
-	"affirmatios/university/internal/user"
+	"affirmatios/employer/internal/employer"
+	"affirmatios/employer/internal/management"
+	"affirmatios/employer/internal/user"
 	"fmt"
 	"log"
 	"net/http"
@@ -16,7 +16,7 @@ import (
 
 // Run will be the entry point function for the REST APIs
 func Run(config *Config) error {
-	universityHandler := university.University{}
+	employerHandler := employer.Employer{}
 	connectionsHandler := management.Connections{}
 	userHandler := user.Management{}
 
@@ -25,7 +25,7 @@ func Run(config *Config) error {
 	// add application services
 	r.setupRoutes(connectionsHandler.GetServices())
 	// add application services
-	r.setupRoutes(universityHandler.GetServices())
+	r.setupRoutes(employerHandler.GetServices())
 	// add user management services
 	r.setupRoutes(userHandler.GetServices())
 	// add configuration services

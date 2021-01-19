@@ -9,7 +9,7 @@ func GetCredentialDefID() string {
 
 // GetSchemaID returns the schema id that is generated earlier
 func GetSchemaID() string {
-	return getOrDefaultEnv("SCHEMA_ID", "Th7MpTaRZVRYnPiabds81Y:2:university_record:1.0")
+	return getOrDefaultEnv("SCHEMA_ID", "Th7MpTaRZVRYnPiabds81Y:2:employer_record:1.0")
 }
 
 // GetSchemaIssuerID returns the DID of the issuer
@@ -19,7 +19,7 @@ func GetSchemaIssuerID() string {
 
 // GetSchemaName returns the name of the schema that was added initially
 func GetSchemaName() string {
-	return getOrDefaultEnv("SCHEMA_NAME", "university_record")
+	return getOrDefaultEnv("SCHEMA_NAME", "employer_record")
 }
 
 func getOrDefaultEnv(key string, defaultValue string) string {

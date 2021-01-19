@@ -1,4 +1,4 @@
-module affirmatios/university
+module affirmatios/employer
 
 go 1.15
 

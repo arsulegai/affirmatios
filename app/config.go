@@ -1,7 +1,7 @@
 package app
 
 import (
-	"affirmatios/university/web"
+	"affirmatios/employer/web"
 	"net/http"
 	"os"
 )
@@ -23,7 +23,7 @@ func GetConfig(appName, appVersion string) *Config {
 
 // GetAriesHost returns the aries host configuration
 func (c *Config) GetAriesHost() string {
-	return getOrDefaultEnv("ARIES_HOST", "university-agent")
+	return getOrDefaultEnv("ARIES_HOST", "employer-agent")
 }
 
 // GetAriesPort returns the port

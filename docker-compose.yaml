@@ -57,3 +57,20 @@ services:
       - 9002:8080
     networks:
       - affirmatios_agent_net   
+  
+  employer:
+    image: arsulegai/affirmatios-employer:latest
+    container_name: employer
+    environment:
+      - HTTP_HOST=0.0.0.0
+      - HTTP_PORT=8080
+      - CRED_DEF_ID=Th7MpTaRZVRYnPiabds81Y:3:CL:17:default
+      - SCHEMA_ID=Th7MpTaRZVRYnPiabds81Y:2:employer_record:1.0
+      - SCHEMA_ISSUER_ID=Th7MpTaRZVRYnPiabds81Y
+      - SCHEMA_NAME=employer_record
+      - ARIES_HOST=employer-agent
+      - ARIES_PORT=8081
+    ports:
+      - 9002:8080
+    networks:
+      - affirmatios_agent_net   
