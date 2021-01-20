@@ -4,7 +4,17 @@ import "os"
 
 // GetCredentialDefID returns the def id from the ledger
 func GetCredentialDefID() string {
-	return getOrDefaultEnv("CRED_DEF_ID", "Th7MpTaRZVRYnPiabds81Y:3:CL:15:default")
+	return getOrDefaultEnv("CRED_DEF_ID", "Th7MpTaRZVRYnPiabds81Y:3:CL:23:default")
+}
+
+// GetCredentialDefID returns the def id from the ledger
+func GetDegreeCredentialDefID() string {
+	return getOrDefaultEnv("DEGREE_CRED_DEF_ID", "Th7MpTaRZVRYnPiabds81Y:3:CL:23:default")
+}
+
+// GetCredentialDefID returns the def id from the ledger
+func GetHealthCredentialDefID() string {
+	return getOrDefaultEnv("HEALTH_CRED_DEF_ID", "Th7MpTaRZVRYnPiabds81Y:3:CL:23:default")
 }
 
 // GetSchemaID returns the schema id that is generated earlier

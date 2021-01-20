@@ -99,3 +99,8 @@ func ViewCredential() ([]byte, error) {
 	agent := GetAgent()
 	return agent.viewIssuedCredential()
 }
+
+func RequestProof(message []byte) ([]byte, error) {
+	agent := GetAgent()
+	return agent.requestProof(message)
+}

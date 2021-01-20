@@ -58,6 +58,10 @@ func (agent AriesAgent) createConnection() ([]byte, error) {
 	return agent.post(nil, "/connections/create-invitation?alias="+alias)
 }
 
+func (agent AriesAgent) requestProof(message []byte) ([]byte, error) {
+	return agent.post(message, "/present-proof/send-request")
+}
+
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 // RandStringBytes generates a random string
