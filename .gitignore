@@ -20,4 +20,5 @@
 .idea
 /hospital
 /university
+/employer
 go.sum
