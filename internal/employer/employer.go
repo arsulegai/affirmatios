@@ -139,10 +139,10 @@ func GetCredId(recordType string) (string, string) {
 	body := employerRecord
 	switch recordType {
 	case "Hospital":
-		credId = ledger.GetDegreeCredentialDefID()
+		credId = ledger.GetHealthCredentialDefID()
 		body = healthRecord
 	case "Degree":
-		credId = ledger.GetHealthCredentialDefID()
+		credId = ledger.GetDegreeCredentialDefID()
 		body = degreeRecord
 	}
 	return credId, body
