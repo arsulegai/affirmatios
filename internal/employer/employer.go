@@ -122,7 +122,7 @@ func (p *RequestProof) GetHandler() http.HandlerFunc {
 		}
 		credId, body := GetCredId(p.RecordType)
 
-		body = strings.ReplaceAll(employerRecord, "$$CONNECTIONID$$", p.ConnectionId)
+		body = strings.ReplaceAll(body, "$$CONNECTIONID$$", p.ConnectionId)
 		body = strings.ReplaceAll(body, "$$CREDID$$", credId)
 		// Response back from the agent
 		respBody, err := aagent.RequestProof([]byte(body))
