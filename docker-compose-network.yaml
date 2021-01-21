@@ -199,10 +199,10 @@ services:
     --genesis-file /sandbox/pool_transactions_genesis \
     --wallet-name employeewallet --wallet-key employeeagentkey \
     --seed 000000000000000000000000Steward1 \
-    && aca-py start --label agent.Holder \
+    && aca-py start --label agent.Employer \
     --auto-respond-messages --trace-target log --trace-tag acapy.events \
     --auto-respond-credential-offer \
-    --trace-label agent.Holder.trace --auto-accept-invites \
+    --trace-label agent.Employer.trace --auto-accept-invites \
     --auto-accept-requests --genesis-file /sandbox/pool_transactions_genesis \
     --wallet-storage-type default \
     --wallet-type indy -it http 0.0.0.0 8080 -ot http \

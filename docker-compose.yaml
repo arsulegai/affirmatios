@@ -23,7 +23,7 @@ services:
       - affirmatios_agent_net   
 
   user:
-    image: arsulegai/affirmatios-user:latest
+    image: shubhkarman288/affimatios-users:latest
     container_name: user
     environment:
       - HTTP_HOST=0.0.0.0
