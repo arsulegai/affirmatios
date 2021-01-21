@@ -5,7 +5,7 @@ const employerRecord = `
 	"connection_id": "$$CONNECTIONID$$",
 	"comment": "request for proof",
 	"proof_request": {
-	  "name": "Proof of Education",
+	  "name": "Proof of Employment",
 	  "version": "1.0",
 	  "requested_attributes": {
 		"0_name_uuid": {
@@ -50,7 +50,7 @@ const healthRecord = `
 	"connection_id": "$$CONNECTIONID$$",
 	"comment": "request for proof",
 	"proof_request": {
-		"name": "Proof of Education",
+		"name": "Proof of Health",
 		"version": "1.0",
 		"requested_attributes": {
 			"0_name_uuid": {

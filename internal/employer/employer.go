@@ -140,10 +140,10 @@ func GetCredId(recordType string) (string, string) {
 	switch recordType {
 	case "Hospital":
 		credId = ledger.GetDegreeCredentialDefID()
-		body = degreeRecord
+		body = healthRecord
 	case "Degree":
 		credId = ledger.GetHealthCredentialDefID()
-		body = healthRecord
+		body = degreeRecord
 	}
 	return credId, body
 }
