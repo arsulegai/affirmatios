@@ -57,9 +57,7 @@ services:
       - affirmatios_agent_net   
   
   employer:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: arsulegai/affirmatios-employer:latest
     container_name: employer
     environment:
       - HTTP_HOST=0.0.0.0
