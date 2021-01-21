@@ -82,14 +82,84 @@ func (v *ViewCredential) GetMethod() string {
 	return http.MethodGet
 }
 
+// VerifyCredential has an API to establish a connection
+type VerifyCredential struct {
+	CredentialExchangeID string `json:"credential_exchange_id"`
+}
+
+// GetAPI for all the credentials
+func (v *VerifyCredential) GetAPI() string {
+	return "/employer/verify"
+}
+
+// GetHandler for the returning all credentials
+func (v *VerifyCredential) GetHandler() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		requestedBodyBytes, err := ioutil.ReadAll(request.Body)
+		if err != nil {
+			web.BadRequest(writer, err)
+			return
+		}
+		// read the request body, has the exchange id and the credential
+		err = json.Unmarshal(requestedBodyBytes, v)
+		log.Printf("%v", v)
+		if err != nil {
+			web.BadRequest(writer, err)
+			return
+		}
+		// Call the agent and create the information
+		respBody, err := aagent.VerifyCredential(v.CredentialExchangeID)
+		if err != nil {
+			web.BadRequest(writer, err)
+			return
+		}
+		web.Success(writer, respBody)
+	}
+}
+
+// GetMethod for EstablishedConnections is GET
+func (v *VerifyCredential) GetMethod() string {
+	return http.MethodPost
+}
+
+// ListPresentedCred has an API to establish a connection
+type ListPresentedCred struct{}
+
+// GetAPI for all the credentials
+func (v *ListPresentedCred) GetAPI() string {
+	return "/employer/presented-proofs"
+}
+
+// GetHandler for the returning all credentials
+func (v *ListPresentedCred) GetHandler() http.HandlerFunc {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		// Call the agent and create the information
+		respBody, err := aagent.PPList()
+		if err != nil {
+			web.BadRequest(writer, err)
+			return
+		}
+		web.Success(writer, respBody)
+	}
+}
+
+// GetMethod for EstablishedConnections is GET
+func (v *ListPresentedCred) GetMethod() string {
+	return http.MethodGet
+}
+
 // GetServices returns all the services from employer
 func (h *Employer) GetServices() []web.Service {
 	var services []web.Service
 	v := ViewCredential{}
 	p := RequestProof{}
+	f := VerifyCredential{}
+	l := ListPresentedCred{}
 	services = append(services, h)
 	services = append(services, &v)
 	services = append(services, &p)
+	services = append(services, &f)
+	services = append(services, &l)
 	return services
 }
 

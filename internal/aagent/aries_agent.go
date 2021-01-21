@@ -62,6 +62,14 @@ func (agent AriesAgent) requestProof(message []byte) ([]byte, error) {
 	return agent.post(message, "/present-proof/send-request")
 }
 
+func (agent AriesAgent) verifyCredential(message string) ([]byte, error) {
+	return agent.post(nil, "/present-proof/records/"+message+"/verify-presentation")
+}
+
+func (agent AriesAgent) ppList() ([]byte, error) {
+	return agent.get("/present-proof/records")
+}
+
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 // RandStringBytes generates a random string

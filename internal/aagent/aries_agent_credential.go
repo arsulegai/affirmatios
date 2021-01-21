@@ -104,3 +104,15 @@ func RequestProof(message []byte) ([]byte, error) {
 	agent := GetAgent()
 	return agent.requestProof(message)
 }
+
+// VerifyCredential will verify the credential id
+func VerifyCredential(credId string) ([]byte, error) {
+	agent := GetAgent()
+	return agent.verifyCredential(credId)
+}
+
+// PPList will respond back all the presented proof
+func PPList() ([]byte, error) {
+	agent := GetAgent()
+	return agent.ppList()
+}
